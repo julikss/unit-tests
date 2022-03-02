@@ -29,7 +29,7 @@ class CircularList {
 
     //add new element to the certain position in the list
     insert(data, index) {
-        if (typeof index !== 'number' || index < 0 || index > (this.length + 1)) {
+        if (typeof index !== 'number' || index < 0 || (index > this.length + 1)) {
             throw new Error('You entered invalid index');
         }
         
@@ -58,12 +58,11 @@ class CircularList {
             newNode.next = currNode;
             return newNode;
         }
-
     }
 
     //delete node by its index
     delete(index) {
-        if (typeof index !== 'number' || index < 0 || index > (this.length + 1)) {
+        if (typeof index !== 'number' || index < 0 || (index > this.length + 1)) {
             throw new Error('You entered invalid index');
         }
 
@@ -87,9 +86,32 @@ class CircularList {
                 currNode.next.prev = prevNode;
             }
         }
-
             this.length--;
-            return currNode.data;
+            return currNode.element;
+    }
+
+    //delete all nodes with the same value
+    deleteAll(value) {
+        if (!this.head) {
+            return null;
+        }
+
+        let currNode = this.head;
+
+        if (currNode !== null) {
+            for(let i = 0; i < this.getLength(); i++) {
+                if (currNode.element === value) {
+                    this.delete(i);
+                    currNode = currNode.next;
+                    this.length--;
+                } else {
+                    currNode = currNode.next;
+                }
+                i++;
+            }
+         }
+
+        return;
     }
     
 }
@@ -101,6 +123,6 @@ list.append('c');
 list.append('b');
 list.insert('u', 4);
 list.insert('l', 5);
-list.delete(0);
-list.delete(5);
+list.delete(1);
+list.deleteAll('b');
 console.log(list);
