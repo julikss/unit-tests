@@ -7,7 +7,7 @@ class CircularList {
         this.length = 0;
     }
 
-    length() {
+    getLength() {
         return this.length;
     }
 
@@ -61,6 +61,36 @@ class CircularList {
 
     }
 
+    //delete node by its index
+    delete(index) {
+        if (typeof index !== 'number' || index < 0 || index > (this.length + 1)) {
+            throw new Error('You entered invalid index');
+        }
+
+        let currNode = this.head;
+
+        if (index === 0) {
+            this.head = currNode.next;
+        } else {
+            let prevNode = null;
+            let counter = 0; 
+
+            while (counter < index) {
+                prevNode = currNode.next;
+                currNode = currNode.next;
+                counter++;
+            }
+
+            prevNode.next = currNode.next;
+
+            if (currNode.next) {
+                currNode.next.prev = prevNode;
+            }
+        }
+
+            this.length--;
+            return currNode.data;
+    }
     
 }
 
@@ -71,5 +101,6 @@ list.append('c');
 list.append('b');
 list.insert('u', 4);
 list.insert('l', 5);
+list.delete(0);
+list.delete(5);
 console.log(list);
-//console.log(list.length);
