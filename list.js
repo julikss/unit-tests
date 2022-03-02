@@ -113,7 +113,58 @@ class CircularList {
 
         return;
     }
+
+    //get an element by its index
+    get(index) {
+        if (typeof index !== 'number' || index < 0 || (index > this.length + 1)) {
+            throw new Error('You entered invalid index');
+        }
+
+        let counter = 0;
+        let currNode = this.head;
+
+        while (counter !== index) {
+            currNode = currNode.next;
+            counter ++;
+        }
+        
+        return currNode.element;
+    }
+
+    clone() {
+        let clonedList = new CircularList();
+        let currNode = this.head;
+        let counter = 0;
+
+        while (counter < this.getLength()) {
+            clonedList.append(currNode.element);
+            currNode = currNode.next;
+            clonedList.length++;
+            counter++;
+        }
+
+        return clonedList;
+    }
     
+    reverse() {
+        let currNode = this.head;
+        let tailNode = this.tail;
+        let node;
+        this.tail = currNode;
+        this.head = tailNode;
+
+        for (let i = 0; i < this.getLength(); i++) {
+            node = currNode.next;
+            currNode.next = currNode.prev;
+            currNode.prev = node;
+            currNode = node;
+        }
+
+        return this;
+    }
+
+
+
 }
 
 const list = new CircularList();
@@ -121,8 +172,10 @@ list.append('a');
 list.append('b');
 list.append('c');
 list.append('b');
-list.insert('u', 4);
-list.insert('l', 5);
-list.delete(1);
-list.deleteAll('b');
-console.log(list);
+//list.insert('u', 4);
+//list.insert('l', 5);
+//list.delete(1);
+//list.deleteAll('b');
+list.get(3);
+
+console.log(list.reverse());
