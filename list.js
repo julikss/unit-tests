@@ -163,7 +163,41 @@ class CircularList {
         return this;
     }
 
+    //finds first element in the list with the same value and returns its index
+    findFirst(element) {
+        let currNode = this.head;
+        
+        for (let i = 0; i < this.getLength(); i++) {
+            if (currNode.element === element) return i;
+            currNode = currNode.next;
+        }
 
+        return -1;
+    }
+
+    //finds last element in the list with the same value and returns its index
+    findLast(element) {
+        let currNode = this.tail;
+        
+        for (let i = this.getLength() - 1; i >= 0; i++) {
+            if (currNode.element === element) return i;
+            currNode = currNode.prev;
+        }
+
+        return -1;
+    }
+
+    clear() {
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
+        return this;
+    }
+
+    //extends list with another list
+    extend(list) {
+        
+    }
 
 }
 
