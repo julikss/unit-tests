@@ -29,7 +29,7 @@ class CircularList {
 
     //add new element to the certain position in the list
     insert(data, index) {
-        if (typeof index !== 'number' || index < 0 || index >= this.length) {
+        if (typeof index !== 'number' || index < 0 || index > this.length) {
             throw new Error('You entered invalid index');
         }
         
@@ -67,7 +67,7 @@ class CircularList {
 
     //delete node by its index
     delete(index) {
-        if (typeof index !== 'number' || index < 0 || index >= this.length) {
+        if (typeof index !== 'number' || index < 0 || index > this.length) {
             throw new Error('You entered invalid index');
         }
 
@@ -120,7 +120,7 @@ class CircularList {
 
     //get an element by its index
     get(index) {
-        if (typeof index !== 'number' || index < 0 || index >= this.length) {
+        if (typeof index !== 'number' || index < 0 || index > this.length) {
             throw new Error('You entered invalid index');
         }
 
@@ -208,36 +208,58 @@ class CircularList {
         for (let i = 0; i < list.length; i++) {
             this.append(currNode.element);
             currNode = currNode.next;
+            this.length++;
         }
 
         return this;
     }
 
     //for checking work of methods
-    printList() {
-        let currNode = this.head;
-        for (let i = 0; i < list.length; i++) {
-          console.log(currNode.element);
-          currNode = currNode.next;
+    print(method) {
+        let output = `after ${method}:`;
+        for (let i = 0; i <= list.length; i++) {
+          output += ' ' + list.get(i);
         }
+        console.log(output);
     }
 }
 
 //usage
 const list = new CircularList();
 list.append('a');
-list.append('d');
-list.append('d');
 list.append('b');
 list.append('c');
-list.append('d');
 list.append('a');
-list.append('d');
+list.print('append');
 
-//list.insert('u', 0);
-//list.insert('l', 3);
-//list.delete(0);
-//list.deleteAll('d');
-//console.log(list.reverse());
-//list.print();
-//console.log(list);
+list.insert('u', 0);
+list.insert('u', 3);
+list.print('insert');
+
+list.delete(2);
+list.print('delete');
+
+//list.deleteAll('u');
+//list.print('deleteAll');
+
+const el = list.get(4);
+console.log(`get element: ${el}`);
+
+const list1 = list.clone();
+list1.print('clone');
+
+//const list2 = list.reverse();
+//list2.print('reverse');
+
+const el1 = list.findFirst('c');
+console.log(`find index of first match: ${el1}`);
+
+//const el2 = list.findLast('a');
+//console.log(`find index of last match: ${el2}`);
+
+console.log(`list after clear: ${list.clear()}`); 
+
+const list2 = new CircularList();
+list2.append('f');
+//list1.extend(list2);
+//list1.print('extend');
