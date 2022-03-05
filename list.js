@@ -29,94 +29,98 @@ class CircularList {
 
     //add new element to the certain position in the list
     insert(data, index) {
-        if (typeof index !== 'number' || index < 0 || (index > this.length + 1)) {
+        if (typeof index !== 'number' || index < 0 || index >= this.length) {
             throw new Error('You entered invalid index');
         }
         
         const newNode = { element: data, next: this.head };
-        this.length++;
 
         if (index === 0) {
-            this.head.prev = newNode;
-            newNode.next = this.head;
             this.head = newNode;
+            this.length++;
             return newNode;
-        } else {
-            let counter = 0;
-            let prevNode;
-            let currNode = this.head;
+        }
+        
+        if (index === this.length) {
+            this.append(newNode.element);
+            this.length++;
+            return newNode;
+        }
 
-            while (counter < index) {
-                prevNode = currNode;
-                currNode = currNode.next;
-                counter++;
+        let prevNode;
+        let currNode = this.head;
+
+        for (let i = 0; i < this.length; i++) {
+            if (index === i) {
+                prevNode.next = newNode;
+                currNode.prev = newNode;
+                newNode.prev = prevNode;
+                newNode.next = currNode;
+                this.length++;
+                break;
             }
 
-            prevNode.next = newNode;
-            currNode.prev = newNode;
-            newNode.prev = prevNode;
-            newNode.next = currNode;
-            return newNode;
+            prevNode = currNode;
+            currNode = currNode.next;
         }
     }
 
     //delete node by its index
     delete(index) {
-        if (typeof index !== 'number' || index < 0 || (index > this.length + 1)) {
+        if (typeof index !== 'number' || index < 0 || index >= this.length) {
             throw new Error('You entered invalid index');
         }
 
         let currNode = this.head;
+        let prevNode;
 
         if (index === 0) {
             this.head = currNode.next;
-        } else {
-            let prevNode = null;
-            let counter = 0; 
-
-            while (counter < index) {
-                prevNode = currNode.next;
-                currNode = currNode.next;
-                counter++;
-            }
-
-            prevNode.next = currNode.next;
-
-            if (currNode.next) {
-                currNode.next.prev = prevNode;
-            }
-        }
             this.length--;
             return currNode.element;
+        } 
+
+        if (index === this.length) {
+            this.tail = prevNode;
+            this.length--;
+            return currNode.element;
+        }       
+
+        for (let i = 0; i < this.length; i++) {
+            if (index === i) {
+                prevNode.next = currNode.next;
+                this.length--;
+                return currNode.element;
+            }
+
+            prevNode = currNode;
+            currNode = prevNode.next;
+        }
     }
 
     //delete all nodes with the same value
-    deleteAll(value) {
+    deleteAll(element) {
         if (!this.head) {
             return null;
         }
 
-        let currNode = this.head;
+        let currNode = this.tail;
+       
+        for(let i = this.length; i > 0; i--) {
+            if (currNode.element === element) {
+                this.delete(i - 1);
+                this.length--;
+            } else console.log('Nothing to delete');
 
-        if (currNode !== null) {
-            for(let i = 0; i < this.getLength(); i++) {
-                if (currNode.element === value) {
-                    this.delete(i);
-                    currNode = currNode.next;
-                    this.length--;
-                } else {
-                    currNode = currNode.next;
-                }
-                i++;
-            }
-         }
-
+            currNode = currNode.prev;
+        }
+         
         return;
     }
 
     //get an element by its index
     get(index) {
-        if (typeof index !== 'number' || index < 0 || (index > this.length + 1)) {
+        if (typeof index !== 'number' || index < 0 || index >= this.length) {
             throw new Error('You entered invalid index');
         }
 
@@ -134,31 +138,34 @@ class CircularList {
     clone() {
         let clonedList = new CircularList();
         let currNode = this.head;
-        let counter = 0;
 
-        while (counter < this.getLength()) {
+        for (let i = 0; i <= this.length; i++) {
             clonedList.append(currNode.element);
             currNode = currNode.next;
-            clonedList.length++;
-            counter++;
         }
 
         return clonedList;
     }
     
     reverse() {
-        let currNode = this.head;
-        let tailNode = this.tail;
-        let node;
-        this.tail = currNode;
-        this.head = tailNode;
-
-        for (let i = 0; i < this.getLength(); i++) {
-            node = currNode.next;
-            currNode.next = currNode.prev;
-            currNode.prev = node;
-            currNode = node;
+        if (!this.head) {
+            return null;
         }
+
+        let oldHead = this.head;
+        let oldTail = this.tail;
+        let currNode = this.head;
+        let nextNode = this.head.next;
+
+        for (let i = 0; i < this.length; i++) {
+            currNode.next = oldTail;
+            oldTail = currNode;
+            currNode = nextNode;
+            nextNode = currNode.next;
+        }
+
+        this.head = this.tail;
+        this.tail = oldHead;
 
         return this;
     }
@@ -167,7 +174,7 @@ class CircularList {
     findFirst(element) {
         let currNode = this.head;
         
-        for (let i = 0; i < this.getLength(); i++) {
+        for (let i = 0; i < this.length; i++) {
             if (currNode.element === element) return i;
             currNode = currNode.next;
         }
@@ -179,7 +186,7 @@ class CircularList {
     findLast(element) {
         let currNode = this.tail;
         
-        for (let i = this.getLength() - 1; i >= 0; i++) {
+        for (let i = this.length - 1; i >= 0; i--) {
             if (currNode.element === element) return i;
             currNode = currNode.prev;
         }
@@ -194,22 +201,43 @@ class CircularList {
         return this;
     }
 
-    //extends list with another list
+    //extends list with another one
     extend(list) {
-        
+        let currNode = list.head;
+
+        for (let i = 0; i < list.length; i++) {
+            this.append(currNode.element);
+            currNode = currNode.next;
+        }
+
+        return this;
     }
 
+    //for checking work of methods
+    printList() {
+        let currNode = this.head;
+        for (let i = 0; i < list.length; i++) {
+          console.log(currNode.element);
+          currNode = currNode.next;
+        }
+    }
 }
 
+//usage
 const list = new CircularList();
 list.append('a');
+list.append('d');
+list.append('d');
 list.append('b');
 list.append('c');
-list.append('b');
-//list.insert('u', 4);
-//list.insert('l', 5);
-//list.delete(1);
-//list.deleteAll('b');
-list.get(3);
+list.append('d');
+list.append('a');
+list.append('d');
 
-console.log(list.reverse());
+//list.insert('u', 0);
+//list.insert('l', 3);
+//list.delete(0);
+//list.deleteAll('d');
+//console.log(list.reverse());
+//list.print();
+//console.log(list);
