@@ -104,17 +104,12 @@ class CircularList {
             return null;
         }
 
-        let currNode = this.tail;
-       
-        for(let i = this.length; i > 0; i--) {
-            if (currNode.element === element) {
-                this.delete(i - 1);
-                this.length--;
-            } else console.log('Nothing to delete');
-
-            currNode = currNode.prev;
+        for(let i = 0; i <= this.length; i++) {
+            if (this.get(i) === element) {
+                this.delete(i); 
+            }
         }
-         
+
         return;
     }
 
@@ -186,7 +181,7 @@ class CircularList {
     findLast(element) {
         let currNode = this.tail;
         
-        for (let i = this.length - 1; i >= 0; i--) {
+        for (let i = this.length; i >= 0; i--) {
             if (currNode.element === element) return i;
             currNode = currNode.prev;
         }
@@ -229,6 +224,7 @@ const list = new CircularList();
 list.append('a');
 list.append('b');
 list.append('c');
+list.append('d');
 list.append('a');
 list.print('append');
 
@@ -239,10 +235,10 @@ list.print('insert');
 list.delete(2);
 list.print('delete');
 
-//list.deleteAll('u');
-//list.print('deleteAll');
+list.deleteAll('u');
+list.print('deleteAll');
 
-const el = list.get(4);
+const el = list.get(1);
 console.log(`get element: ${el}`);
 
 const list1 = list.clone();
@@ -251,15 +247,15 @@ list1.print('clone');
 //const list2 = list.reverse();
 //list2.print('reverse');
 
-const el1 = list.findFirst('c');
+const el1 = list.findFirst('a');
 console.log(`find index of first match: ${el1}`);
 
-//const el2 = list.findLast('a');
-//console.log(`find index of last match: ${el2}`);
+const el2 = list.findLast('a');
+console.log(`find index of last match: ${el2}`);
 
 console.log(`list after clear: ${list.clear()}`); 
 
-const list2 = new CircularList();
-list2.append('f');
-//list1.extend(list2);
+const list3 = new CircularList();
+list3.append('f');
+//list1.extend(list3);
 //list1.print('extend');
