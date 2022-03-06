@@ -14,10 +14,12 @@ class CircularList {
     //add new element to the end of the list
     append(data) {
         const newNode = { element: data, next: this.head };
+        
 
         if (!this.head || !this.tail) {
             this.head = newNode;
             this.tail = newNode;
+            this.length++;
             return newNode;
         }
 
@@ -104,7 +106,7 @@ class CircularList {
             return null;
         }
 
-        for(let i = 0; i <= this.length; i++) {
+        for(let i = 0; i < this.length; i++) {
             if (this.get(i) === element) {
                 this.delete(i); 
             }
@@ -134,7 +136,7 @@ class CircularList {
         let clonedList = new CircularList();
         let currNode = this.head;
 
-        for (let i = 0; i <= this.length; i++) {
+        for (let i = 0; i < this.length; i++) {
             clonedList.append(currNode.element);
             currNode = currNode.next;
         }
@@ -179,7 +181,7 @@ class CircularList {
     findLast(element) {
         let currNode = this.tail;
         
-        for (let i = this.length; i >= 0; i--) {
+        for (let i = this.length; i > 0; i--) {
             if (currNode.element === element) return i;
             currNode = currNode.prev;
         }
@@ -210,7 +212,7 @@ class CircularList {
     //for checking work of methods
     print(method) {
         let output = `after ${method}:`;
-        for (let i = 0; i <= list.length; i++) {
+        for (let i = 0; i < list.length; i++) {
           output += ' ' + list.get(i);
         }
         console.log(output);
@@ -257,4 +259,6 @@ list.extend(list3);
 list.print('extend');
 
 console.log(`list after clear: ${list.clear()}`); 
+
+module.exports = { CircularList };
 
