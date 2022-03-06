@@ -143,18 +143,16 @@ class CircularList {
     }
     
     reverse() {
-        if (!this.head) {
-            return null;
-        }
-
+        let currNode = null;
         let oldHead = this.head;
-        let oldTail = this.tail;
-        let currNode = this.head;
+        let prevNode = this.tail;
         let nextNode = this.head.next;
 
-        for (let i = 0; i < this.length; i++) {
-            currNode.next = oldTail;
-            oldTail = currNode;
+        while(currNode !== this.head){
+            if(currNode === null) currNode = this.head;
+
+            currNode.next = prevNode;
+            prevNode = currNode;
             currNode = nextNode;
             nextNode = currNode.next;
         }
@@ -203,7 +201,6 @@ class CircularList {
         for (let i = 0; i < list.length; i++) {
             this.append(currNode.element);
             currNode = currNode.next;
-            this.length++;
         }
 
         return this;
@@ -244,8 +241,8 @@ console.log(`get element: ${el}`);
 const list1 = list.clone();
 list1.print('clone');
 
-//const list2 = list.reverse();
-//list2.print('reverse');
+const list2 = list.reverse();
+list2.print('reverse');
 
 const el1 = list.findFirst('a');
 console.log(`find index of first match: ${el1}`);
@@ -257,5 +254,5 @@ console.log(`list after clear: ${list.clear()}`);
 
 const list3 = new CircularList();
 list3.append('f');
-//list1.extend(list3);
-//list1.print('extend');
+list1.extend(list3);
+list1.print('extend');
