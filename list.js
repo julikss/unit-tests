@@ -197,10 +197,11 @@ class CircularList {
     //extends list with another one
     extend(list) {
         let currNode = list.head;
-
-        for (let i = 0; i < list.length; i++) {
-            this.append(currNode.element);
-            currNode = currNode.next;
+        for (let i = 0; i <= list.length; i++) {
+            if (currNode !== null) {
+                this.append(currNode.element);
+                currNode = currNode.next;
+            }
         }
 
         return this;
@@ -250,9 +251,10 @@ console.log(`find index of first match: ${el1}`);
 const el2 = list.findLast('a');
 console.log(`find index of last match: ${el2}`);
 
-console.log(`list after clear: ${list.clear()}`); 
-
 const list3 = new CircularList();
 list3.append('f');
-list1.extend(list3);
-list1.print('extend');
+list.extend(list3);
+list.print('extend');
+
+console.log(`list after clear: ${list.clear()}`); 
+
