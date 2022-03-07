@@ -7,14 +7,26 @@ class CircularList {
         this.length = 0;
     }
 
+    checkValue(el) {
+        if (typeof el !== 'string' || el.length !== 1 || !el.match(/[A-Za-z]/)) {
+            throw new Error('You entered invalid value');
+        }
+    }
+
+    checkIndex(index) {
+        if (typeof index !== 'number' || index < 0 || index > this.length) {
+            throw new Error('You entered invalid index');
+        }
+    }
+
     getLength() {
         return this.length;
     }
 
     //add new element to the end of the list
     append(data) {
+        this.checkValue(data);
         const newNode = { element: data, next: this.head };
-        
 
         if (!this.head || !this.tail) {
             this.head = newNode;
@@ -31,10 +43,8 @@ class CircularList {
 
     //add new element to the certain position in the list
     insert(data, index) {
-        if (typeof index !== 'number' || index < 0 || index > this.length) {
-            throw new Error('You entered invalid index');
-        }
-        
+        this.checkValue(data);
+        this.checkIndex(index);
         const newNode = { element: data, next: this.head };
 
         if (index === 0) {
@@ -69,10 +79,7 @@ class CircularList {
 
     //delete node by its index
     delete(index) {
-        if (typeof index !== 'number' || index < 0 || index > this.length) {
-            throw new Error('You entered invalid index');
-        }
-
+        this.checkIndex(index);
         let currNode = this.head;
         let prevNode;
 
@@ -102,6 +109,7 @@ class CircularList {
 
     //delete all nodes with the same value
     deleteAll(element) {
+        this.checkValue(element);
         if (!this.head) {
             return null;
         }
@@ -117,10 +125,7 @@ class CircularList {
 
     //get an element by its index
     get(index) {
-        if (typeof index !== 'number' || index < 0 || index > this.length) {
-            throw new Error('You entered invalid index');
-        }
-
+        this.checkIndex(index);
         let counter = 0;
         let currNode = this.head;
 
@@ -167,6 +172,7 @@ class CircularList {
 
     //finds first element in the list with the same value and returns its index
     findFirst(element) {
+        this.checkValue(element);
         let currNode = this.head;
         
         for (let i = 0; i < this.length; i++) {
@@ -179,6 +185,7 @@ class CircularList {
 
     //finds last element in the list with the same value and returns its index
     findLast(element) {
+        this.checkValue(element);
         let currNode = this.tail;
         
         for (let i = this.length; i > 0; i--) {

@@ -19,7 +19,6 @@ describe('testing getLength method', () => {
     });
 });
 
-
 describe('testing append method', () => {
     const list = new CircularList();
     
@@ -40,8 +39,54 @@ describe('testing append method', () => {
         list.clear();
         list.append('c');
         expect(list.tail.element).toEqual('c');
-    })
-})
+    });
 
+    test('should throw an error if value isn\'t a string', () => {
+        expect(() => list.append(a)).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a single character', () => {
+        expect(() => list.append('abc')).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a character', () => {
+        expect(() => list.append('!')).toThrow(Error);
+    });
+});
+
+describe('testing insert method', () => {
+    const list = new CircularList();
+    ['n', 'o', 'w', 'a', 'r'].forEach(el => list.append(el));
+    
+    test('should throw an error if index < 0', () => {
+        expect(() => list.insert('a', -1)).toThrow(Error);
+    });
+
+    test('should throw an error if index > length of the list', () => {
+        expect(() => list.insert('a', list.length + 1)).toThrow(Error);
+    });
+
+    test('should throw an error if index isn\'t a number', () => {
+        expect(() => list.insert('a', 'one')).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a string', () => {
+        expect(() => list.insert(a, 1)).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a single character', () => {
+        expect(() => list.insert('abc', 1)).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a character', () => {
+        expect(() => list.insert('!', 6)).toThrow(Error);
+    });
+
+    it('should increase length property', () => {
+        const startLen = list.length;
+        list.insert('a', 1);
+        expect(list.length).toBeGreaterThan(startLen);
+    });
+});
 
   
