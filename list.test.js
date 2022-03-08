@@ -259,3 +259,37 @@ describe('testing findLast method', () => {
         expect(res).toBe(-1);
     });
 });
+
+describe('testing clear method', () => {
+    it('should clear a list', () => {
+        const list = new CircularList();
+        ['a', 'b', 'c', 'a'].forEach(el => list.append(el));
+        list.clear();
+
+        expect(list.length).toBe(0);
+        expect(() => list.get(1)).toThrow(Error);
+    })
+});
+
+describe('testing extend method', () => {
+    const list1 = new CircularList();
+    ['a', 'b'].forEach(el => list1.append(el));
+    const list2 = new CircularList();
+    ['c', 'd'].forEach(el => list2.append(el));
+    list1.extend(list2);
+
+    it('should add elements from one list to the end of another', () => {
+        expect(list1.length).toBe(4);
+        expect(list1.get(0)).toBe('a');
+        expect(list1.get(1)).toBe('b');
+        expect(list1.get(2)).toBe('c');
+        expect(list1.get(3)).toBe('d');
+    });
+
+    it('should not change the second list when changing the extended', () => {
+        list1.append('e');
+
+        expect(list2.length).toBe(2);
+        expect(list2.get(0)).toBe('c');
+    });
+});
