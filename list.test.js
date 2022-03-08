@@ -205,3 +205,57 @@ describe('testing reverse method', () => {
         expect(list.tail.element).toEqual(list.get(0));
     });
 });
+
+describe('testing findFirst method', () => {
+    const list = new CircularList();
+    ['a', 'b', 'c', 'a'].forEach(el => list.append(el));
+
+    test('should throw an error if value isn\'t a string', () => {
+        expect(() => list.findFirst(a)).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a single character', () => {
+        expect(() => list.findFirst('abc')).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a character', () => {
+        expect(() => list.findFirst('!')).toThrow(Error);
+    });
+
+    it('should return index of the first match', () => {
+        const res = list.findFirst('a');
+        expect(res).toBe(0);
+    });
+
+    it('should return -1 if there is no match', () => {
+        const res = list.findFirst('f');
+        expect(res).toBe(-1);
+    });
+});
+
+describe('testing findLast method', () => {
+    const list = new CircularList();
+    ['a', 'b', 'c', 'a'].forEach(el => list.append(el));
+
+    test('should throw an error if value isn\'t a string', () => {
+        expect(() => list.findLast(a)).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a single character', () => {
+        expect(() => list.findLast('abc')).toThrow(Error);
+    });
+
+    test('should throw an error if value isn\'t a character', () => {
+        expect(() => list.findLast('!')).toThrow(Error);
+    });
+
+    it('should return index of the last match', () => {
+        const res = list.findLast('a');
+        expect(res).toBe(3);
+    });
+
+    it('should return -1 if there is no match', () => {
+        const res = list.findFirst('f');
+        expect(res).toBe(-1);
+    });
+});
