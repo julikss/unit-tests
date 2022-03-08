@@ -81,23 +81,18 @@ class CircularList {
     delete(index) {
         this.checkIndex(index);
         let currNode = this.head;
-        let prevNode;
-
-        if (index === 0) {
-            this.head = currNode.next;
-            this.length--;
-            return currNode.element;
-        } 
-
-        if (index === this.length) {
-            this.tail = prevNode;
-            this.length--;
-            return currNode.element;
-        }       
+        let prevNode = this.tail; 
 
         for (let i = 0; i < this.length; i++) {
             if (index === i) {
                 prevNode.next = currNode.next;
+
+                if (currNode === this.head) 
+                    this.head = currNode.next;
+
+                if (currNode === this.tail)
+                    this.tail = prevNode;
+
                 this.length--;
                 return currNode.element;
             }
@@ -188,7 +183,7 @@ class CircularList {
         this.checkValue(element);
         let currNode = this.tail;
         
-        for (let i = this.length; i > 0; i--) {
+        for (let i = this.length - 1; i >= 0; i--) {
             if (currNode.element === element) return i;
             currNode = currNode.prev;
         }
@@ -206,7 +201,7 @@ class CircularList {
     //extends list with another one
     extend(list) {
         let currNode = list.head;
-        for (let i = 0; i <= list.length; i++) {
+        for (let i = 0; i < list.length; i++) {
             if (currNode !== null) {
                 this.append(currNode.element);
                 currNode = currNode.next;
