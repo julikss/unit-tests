@@ -28,7 +28,6 @@ npm test
 
 ## Usage
 
-File list.js has code and description for showing work of the list methods using console. Here's the output:
-![This is an image](file:///home/juliks/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/photo_2022-03-08_13-33-11.jpg)
+File list.js has code and description for showing work of the list methods using console.
 
-## [Commit with failed tests in CI](https://github.com/julikss/unit-tests/commit/7127d01880c5a28f7efe74f1c104a3fac829a3e1)
+### [Commit with failed tests in CI](https://github.com/julikss/unit-tests/commit/7127d01880c5a28f7efe74f1c104a3fac829a3e1)
