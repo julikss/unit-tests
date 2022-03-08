@@ -173,3 +173,35 @@ describe('testing get method', () => {
         expect(list.get(2)).toBe('w');
     });
 })
+
+describe('testing clone method', () => {
+    it('should create a copy of a list', () => {
+        const list = new CircularList();
+        ['a', 'b', 'c', 'a'].forEach(el => list.append(el));
+        const list2 = list.clone();
+
+        expect(list2.get(0)).toBe(list.get(0));
+        expect(list2.get(1)).toBe(list.get(1));
+        expect(list2.get(2)).toBe(list.get(2));
+        expect(list2.get(3)).toBe(list.get(3));
+        expect(list2.length).toBe(list.length);
+    });
+});
+
+describe('testing reverse method', () => {
+    const list = new CircularList();
+    ['a', 'b', 'c', 'a'].forEach(el => list.append(el));
+    list.reverse();
+
+    it('should reverse a list', () => {
+        expect(list.get(0)).toBe('a');
+        expect(list.get(1)).toBe('c');
+        expect(list.get(2)).toBe('b');
+        expect(list.get(3)).toBe('a');
+    }); 
+
+    it('should change head && tail properties', () => {
+        expect(list.head.element).toEqual(list.get(list.length - 1));
+        expect(list.tail.element).toEqual(list.get(0));
+    });
+});
