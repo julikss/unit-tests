@@ -32,7 +32,7 @@ describe('testing append method', () => {
     it('should add element to the end of the list', () => {
         list.clear();
         list.append('b');
-        expect(list.get(list.length - 1)).toEqual('b');
+        expect(list.get(list.length)).toEqual('b'); //index is incorrect
     });
 
     it('tail should have new value', () => {
